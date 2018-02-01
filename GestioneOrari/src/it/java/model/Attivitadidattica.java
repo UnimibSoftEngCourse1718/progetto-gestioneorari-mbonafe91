@@ -14,8 +14,8 @@ import org.openxava.annotations.*;
 @Table(name = "attivitadidattica")
 @Views({ @View(members = "Generalità [nomeattivita; descrizioneattivita]; "
 		+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso]; "
-		+ "ElencoLezioni [lezioneAttivitadidatticaViaIdentificativoattivita];"
-	+ "ElencoEsami [esameAttivitadidatticaViaIdentificativoattivita];"),
+		+ "lezioneAttivitadidatticaViaIdentificativoattivita;"
+	+ "esameAttivitadidatticaViaIdentificativoattivita;"),
 	@View(name = "reference", members = "Generalità [nomeattivita; descrizioneattivita]; "
 				+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso.nomecorso];"),
 		

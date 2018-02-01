@@ -26,25 +26,25 @@ import org.openxava.annotations.*;
         "" 	
         + "Generalità[tipologialezione  ; "
         + "iniziolezione, "
-        + "finelezione]  ; "
-        + "Attività [identificativoattivita]  ; "
-        + "Aula [identificativoaula ] ; "
+        + "finelezione  ; "
+        + "identificativoattivita, "
+        + "identificativoaula ;] "
 		),
 @View(
 		name="referenceAula",members=
         "" 	
         + "Generalità[tipologialezione  ; "
         + "iniziolezione, "
-        + "finelezione]  ; "
-        + "Attività [identificativoattivita]  ; "
+        + "finelezione  ; "
+        + "identificativoattivita ;] "
 		),
 @View(
 		name="referenceAttivita",members=
         "" 	
         + "Generalità[tipologialezione  ; "
         + "iniziolezione, "
-        + "finelezione]  ; "
-        + "Aula [identificativoaula ] ;  "
+        + "finelezione  ; "
+        + "identificativoaula ;]  "
 		)
 })
 @Tab(
@@ -69,23 +69,26 @@ public class Lezione {
 
     @Column(name="inizioLezione",    nullable=false,  unique=false)
     @Required
-    @Temporal(TemporalType.TIMESTAMP)
+	@Stereotype("DATETIME")
     private java.util.Date iniziolezione;
 
     @Column(name="fineLezione",    nullable=false,  unique=false)
     @Required
-    @Temporal(TemporalType.TIMESTAMP)
+	@Stereotype("DATETIME")
     private java.util.Date finelezione;
 
     @ManyToOne (fetch=FetchType.LAZY ,optional=false)
     @JoinColumn(name="identificativoAttivita", referencedColumnName = "identificativoAttivita", nullable=false,  unique=false  )
-    @ReferenceView ("reference") 
+    @NoCreate
+    @NoModify
     @DescriptionsList(descriptionProperties="nomeattivita")
     private Attivitadidattica identificativoattivita;
     
     @ManyToOne (fetch=FetchType.LAZY ,optional=false)
     @JoinColumn(name="identificativoAula", referencedColumnName = "identificativoAula", nullable=false,  unique=false  )
-    @ReferenceView ("reference") 
+    @NoCreate
+    @NoModify
+    @DescriptionsList(descriptionProperties="nomeaula, edificioaula")
     private Aula identificativoaula;
     
     public Lezione() {

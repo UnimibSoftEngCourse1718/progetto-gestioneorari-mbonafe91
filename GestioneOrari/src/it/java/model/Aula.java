@@ -15,7 +15,6 @@ import org.openxava.annotations.*;
 
 @Views({
 	@View(
-		name="base",
 		members=
         "" 	
         + "Generalità ["
