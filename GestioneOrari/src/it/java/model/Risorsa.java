@@ -72,14 +72,4 @@ public class Risorsa {
 		this.libera = libera;
 	}
 	
-	
-	@javax.persistence.PrePersist
-	public void prePersist_() {
-	}
-	
-	
-	@javax.persistence.PreUpdate
-	public void preUpdate_() {
-	}
-	
 }

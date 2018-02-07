@@ -1,13 +1,5 @@
 package it.java.model;
 
-// No beginning comment snippet from this extension MP-MANAGED-ADDED-AREA-BEGINNING @import@// No ending comment snippet from this extension 
-// No beginning comment snippet from this extension MP-MANAGED-ADDED-AREA-ENDING @import@// No ending comment snippet from this extension 
-import java.sql.*;
-import java.util.Date;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.HashSet;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -91,10 +83,6 @@ public class Lezione {
     @DescriptionsList(descriptionProperties="nomeaula, edificioaula")
     private Aula identificativoaula;
     
-    public Lezione() {
-    }
-
-
     public String getIdentificativolezione() {
         return identificativolezione;
     }

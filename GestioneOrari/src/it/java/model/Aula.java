@@ -67,10 +67,6 @@ public class Aula {
     @OneToMany (targetEntity=Lezione.class, fetch=FetchType.LAZY, mappedBy="identificativoaula")
     private Set <Lezione> lezioneAulaViaIdentificativoaula = new HashSet<Lezione>(); 
 
-    public Aula() {
-    }
-
-
     public String getIdentificativoaula() {
         return identificativoaula;
     }

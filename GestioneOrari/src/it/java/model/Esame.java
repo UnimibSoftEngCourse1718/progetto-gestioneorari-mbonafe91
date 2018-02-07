@@ -41,18 +41,7 @@ public class Esame {
 	@Enumerated(EnumType.STRING)
 	private TipologiaEsame tipologiaesame;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false) // remove
-															// optional=false to
-															// aggragate but
-															// leads to a side
-															// effect when going
-															// directly to the
-															// entity: required
-															// check is not
-															// performed=> if no
-															// set DB check
-															// constraint is
-															// raised...
+	@ManyToOne(fetch = FetchType.LAZY, optional = false) 
 	@JoinColumn(name = "identificativoAula", referencedColumnName = "identificativoAula", nullable = false, unique = false)
 	@ReferenceView("reference")
 	@DescriptionsList(descriptionProperties = "nomeaula,edificioaula")
@@ -96,21 +85,19 @@ public class Esame {
 		this.tipologiaesame = tipologiaesame;
 	}
 
-	public Aula getIdentificativoaula() { //
+	public Aula getIdentificativoaula() { 
 		return identificativoaula;
 	}
 
 	public void setIdentificativoaula(Aula identificativoaula) {
-		this.identificativoaula = identificativoaula;// this.identificativoaula
-														// = aula;
+		this.identificativoaula = identificativoaula;
 	}
 
-	public Attivitadidattica getIdentificativoattivita() { //
+	public Attivitadidattica getIdentificativoattivita() { 
 		return identificativoattivita;
 	}
 
 	public void setIdentificativoattivita(Attivitadidattica identificativoattivita) {
-		this.identificativoattivita = identificativoattivita;// this.identificativoaula
-																// = aula;
+		this.identificativoattivita = identificativoattivita;
 	}
 }

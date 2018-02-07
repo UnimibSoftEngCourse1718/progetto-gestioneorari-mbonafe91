@@ -69,9 +69,6 @@ public class Attivitadidattica {
 	@OneToMany(targetEntity = Esame.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
 	private Set<Esame> esameAttivitadidatticaViaIdentificativoattivita = new HashSet<Esame>();
 
-	
-	public Attivitadidattica() {
-	}
 
 	public String getIdentificativoattivita() {
 		return identificativoattivita;

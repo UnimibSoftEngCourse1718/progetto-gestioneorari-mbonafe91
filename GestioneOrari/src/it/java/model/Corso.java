@@ -62,9 +62,6 @@ public class Corso {
 																																				// cascade=CascadeType.ALL)
 	private Set<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso = new HashSet<Attivitadidattica>();
 
-	public Corso() {
-	}
-
 	public String getIdentificativocorso() {
 		return identificativocorso;
 	}

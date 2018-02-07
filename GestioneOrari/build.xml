@@ -1,24 +1,26 @@
 <?xml version="1.0"?>
 
-<project name="GestioneOrari" basedir="." default="deployWar">
+<project name="GestioneOrari" basedir="." default="deployWar"  xmlns:sonar="antlib:org.sonar.ant">
 
 	<property name="project" value="GestioneOrari" />
 	<property name="ox3" value="true" />
 	<property file="../openxava.properties"/>
-	
+	<property name="deploy.dir" value="deploy"/>
+	<property name="war.dir.suffix" value="war"/>
+
 	<!-- 
 	Compile all .java and .groovy 
 	Not needed to call it if you work inside Eclipse
 	-->
-	<target name="compile"> 
+	<target name="compile">
 		<ant antfile="../OpenXava/build.xml" target="compile"/>
-	</target>	    	
-	
+	</target>
+
 	<!-- 
 	Build and deploy the application in war format. 
 	It deploys it on the Tomcat included in OpenXava distribution, 
 	to deploy to other location modify the tomcat.dir property of workspace/openxava.properties.
-	-->	
+	-->
 	<target name="deployWar">
 		<!-- In a directory -->
 		<ant antfile="../OpenXava/build.xml" target="deploy"/>
@@ -26,23 +28,23 @@
 		<ant antfile="../OpenXava/build.xml" target="deployWar"/>
 		-->
 	</target>
-	
+
 	<!-- 
 	Build the application in war format.
 	Leaves the war in the workspace.dist/YourApplication.dist folder.
-	 -->	
+	 -->
 	<target name="createWar">
 		<ant antfile="../OpenXava/build.xml" target="createWar"/>
-	</target>				
+	</target>
 
-	
+
 	<!--
 	Build the application in portlets format 
-	-->		
-	<target name="generatePortlets"> 
+	-->
+	<target name="generatePortlets">
 		<ant antfile="../OpenXava/build.xml" target="generatePortlets"/>
 	</target>
-	
+
 	<!--
 	Update this project with the latest OpenXava version present in the workspace.
 	It must be called just after update the OpenXava version.
@@ -50,17 +52,36 @@
 	<target name="updateOX">
 		<ant antfile="../OpenXava/build.xml" target="updateOX"/>
 	</target>
-	
+
 	<!--
 	Connects to your database and updates your schema in order to match to your current application.
 	Remember to give value to schema.path with the path of the JDBC driver jar for your database.
 	-->
 	<target name="updateSchema">
-		<ant antfile="../OpenXava/build.xml" target="updateSchemaJPA">			
+		<ant antfile="../OpenXava/build.xml" target="updateSchemaJPA">
 			<property name="persistence.unit" value="junit"/>
 			<property name="schema.path" value="../OpenXava/lib/hsqldb.jar"/>
 		</ant>
-	</target>	
+	</target>
+
+	<!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
+	<property name="sonar.host.url" value="http://localhost:9000" />
+
+	<!-- Define the Sonar properties -->
+	<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant" />
+	<property name="sonar.sources" value="src" />
+	<property name="sonar.java.binaries" value="${deploy.dir}/${project}${war.dir.suffix}/WEB-INF/classes" />
+	<property name="sonar.java.libraries" value="web/WEB-INF/lib/*.jar" />
 	
-						
+	<!-- ========= Define SonarQube Scanner for Ant Target ========= -->
+	<target name="sonar" depends="compile">
+		<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
+			<!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
+			<classpath path="web/WEB-INF/lib/sonarqube-ant-task-2.5.jar" />
+		</taskdef>
+
+		<!-- Execute SonarQube Scanner for Ant Analysis -->
+		<sonar:sonar />
+	</target>
+
 </project>
