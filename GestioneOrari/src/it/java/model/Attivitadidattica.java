@@ -13,12 +13,11 @@ import org.openxava.annotations.*;
 @Entity(name = "Attivitadidattica")
 @Table(name = "attivitadidattica")
 @Views({ @View(members = "Generalità [nomeattivita; descrizioneattivita]; "
-		+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso]; "
-		+ "lezioneAttivitadidatticaViaIdentificativoattivita;"
-	+ "esameAttivitadidatticaViaIdentificativoattivita;"),
-	@View(name = "reference", members = "Generalità [nomeattivita; descrizioneattivita]; "
+		+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso,identificativodocente ]; "
+		+ "lezioneAttivitadidatticaViaIdentificativoattivita;" + "esameAttivitadidatticaViaIdentificativoattivita;"),
+		@View(name = "reference", members = "Generalità [nomeattivita; descrizioneattivita]; "
 				+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso.nomecorso];"),
-		
+
 		@View(name = "referenceList", members = "nomeattivita; descrizioneattivita")
 
 })
@@ -57,18 +56,24 @@ public class Attivitadidattica {
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "identificativoCorso", referencedColumnName = "identificativoCorso", nullable = false, unique = false)
 	@ReferenceView("reference")
-	@DescriptionsList(descriptionProperties="nomecorso")
+	@DescriptionsList(descriptionProperties = "nomecorso")
 	private Corso identificativocorso;
 
-	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "identificativoDocente", referencedColumnName = "identificativoDocente", nullable = false, unique = false)
+	@ReferenceView("reference")
+	@DescriptionsList(descriptionProperties = "denominazione")
+	private Docente identificativodocente;
+
 	@CollectionView("referenceAttivita")
-    @ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula")
+	@ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula, identificativolezione")
 	@OneToMany(targetEntity = Lezione.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
 	private Set<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita = new HashSet<Lezione>();
 
+	@CollectionView("referenceAttivita")
+	@ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoaula.nomeaula, identificativoesame")
 	@OneToMany(targetEntity = Esame.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
 	private Set<Esame> esameAttivitadidatticaViaIdentificativoattivita = new HashSet<Esame>();
-
 
 	public String getIdentificativoattivita() {
 		return identificativoattivita;
@@ -126,6 +131,15 @@ public class Attivitadidattica {
 		this.identificativocorso = identificativocorso;
 	}
 
+	public Docente getIdentificativodocente() { //
+		return identificativodocente;
+	}
+
+	public void setIdentificativodocente(Docente identificativodocente) {
+		this.identificativodocente = identificativodocente;// this.identificativodocente
+															// = docente;
+	}
+
 	public Set<Lezione> getLezioneAttivitadidatticaViaIdentificativoattivita() {
 		if (lezioneAttivitadidatticaViaIdentificativoattivita == null) {
 			lezioneAttivitadidatticaViaIdentificativoattivita = new HashSet<Lezione>();
@@ -142,7 +156,6 @@ public class Attivitadidattica {
 		getLezioneAttivitadidatticaViaIdentificativoattivita().add(lezione);
 	}
 
-
 	public Set<Esame> getEsameAttivitadidatticaViaIdentificativoattivita() {
 		if (esameAttivitadidatticaViaIdentificativoattivita == null) {
 			esameAttivitadidatticaViaIdentificativoattivita = new HashSet<Esame>();
@@ -158,5 +171,5 @@ public class Attivitadidattica {
 	public void addEsameAttivitadidatticaViaIdentificativoattivita(Esame esame) {
 		getEsameAttivitadidatticaViaIdentificativoattivita().add(esame);
 	}
-	
+
 }

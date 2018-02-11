@@ -17,16 +17,16 @@ import org.openxava.annotations.*;
 	@View(
 		members=
         "" 	
-        + "Generalità ["
+        + "Generalità [identificativoaula;"
         + "nomeaula  ; "
         + "indirizzoaula , "
         + "edificioaula  ]; "
-	    + "Esami [ esameAulaViaIdentificativoaula ];" 
-	    + "Lezioni [ lezioneAulaViaIdentificativoaula ];" 
+	  //  + "esameAulaViaIdentificativoaula;" 
+	  //  + "lezioneAulaViaIdentificativoaula;" 
 	),
     @View(name="reference", 
-    members=        "" 	
-            + "Generalità ["
+    members="" 	
+            + "Generalità [identificativoaula;"
             + "nomeaula  ; "
             + "indirizzoaula , "
             + "edificioaula  ]; "
@@ -42,7 +42,7 @@ properties=
 
 public class Aula {
 
-    @Hidden  @Id @Column(name="identificativoAula" )
+    @ReadOnly @Id @Column(name="identificativoAula" )
     @GeneratedValue(generator = "system-uuid")
     @org.hibernate.annotations.GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String identificativoaula; 
@@ -59,11 +59,13 @@ public class Aula {
     @Required
     private String edificioaula;
 
+    @CollectionView("referenceAula")
+    @ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoattivita.nomeattivita, identificativoesame")
     @OneToMany (targetEntity=Esame.class, fetch=FetchType.LAZY, mappedBy="identificativoaula")
     private Set <Esame> esameAulaViaIdentificativoaula = new HashSet<Esame>(); 
 
     @CollectionView("referenceAula")
-    @ListProperties("tipologialezione,iniziolezione,finelezione,identificativoattivita.nomeattivita")
+    @ListProperties("tipologialezione,iniziolezione,finelezione,identificativoattivita.nomeattivita,identificativolezione")
     @OneToMany (targetEntity=Lezione.class, fetch=FetchType.LAZY, mappedBy="identificativoaula")
     private Set <Lezione> lezioneAulaViaIdentificativoaula = new HashSet<Lezione>(); 
 

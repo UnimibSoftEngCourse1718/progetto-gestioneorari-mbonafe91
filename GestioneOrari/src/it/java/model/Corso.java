@@ -13,11 +13,9 @@ import org.openxava.annotations.*;
 @Entity(name = "Corso")
 @Table(name = "corso")
 @Views({
-@View(members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;]; Attivit‡Didattiche[attivitadidatticaCorsoViaIdentificativocorso]"),
-@View(name = "Create", members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;];"),
-@View(name = "reference", members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;];")})
-
-
+@View(members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;identificativodocente]; Attivit‡Didattiche[attivitadidatticaCorsoViaIdentificativocorso]"),
+@View(name="reference" ,members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;identificativodocente]")
+})
 @Tab(properties = " nomecorso, descrizionecorso, facolta, durata, attivo, cfu, tipologia ")
 
 public class Corso {
@@ -58,8 +56,12 @@ public class Corso {
 	@Required
 	private String tipologia;
 	
-	@OneToMany(targetEntity = Attivitadidattica.class, fetch = FetchType.LAZY, mappedBy = "identificativocorso", cascade = CascadeType.REMOVE) // ,
-																																				// cascade=CascadeType.ALL)
+    @ManyToOne (fetch=FetchType.LAZY ,optional=false)
+    @JoinColumn(name="identificativoDocente", referencedColumnName = "identificativoDocente", nullable=false,  unique=false  )
+    @ReferenceView ("reference") 
+    private Docente identificativodocente;
+	
+	@OneToMany(targetEntity = Attivitadidattica.class, fetch = FetchType.LAZY, mappedBy = "identificativocorso", cascade = CascadeType.REMOVE)
 	private Set<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso = new HashSet<Attivitadidattica>();
 
 	public String getIdentificativocorso() {
@@ -125,6 +127,15 @@ public class Corso {
 	public void setTipologia(String tipologia) {
 		this.tipologia = tipologia;
 	}
+	
+    public Docente getIdentificativodocente () {  //
+    	return identificativodocente;
+    }
+	
+    public void setIdentificativodocente (Docente identificativodocente) {
+    	this.identificativodocente = identificativodocente;//this.identificativodocente = docente;
+    }
+
 	
 	public Set<Attivitadidattica> getAttivitadidatticaCorsoViaIdentificativocorso() {
 		if (attivitadidatticaCorsoViaIdentificativocorso == null) {

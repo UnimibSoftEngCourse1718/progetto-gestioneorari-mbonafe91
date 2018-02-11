@@ -20,7 +20,8 @@ import org.openxava.annotations.*;
         + "iniziolezione, "
         + "finelezione  ; "
         + "identificativoattivita, "
-        + "identificativoaula ;] "
+        + "identificativoaula;"
+        + "identificativodocente ;] "
 		),
 @View(
 		name="referenceAula",members=
@@ -28,7 +29,8 @@ import org.openxava.annotations.*;
         + "Generalità[tipologialezione  ; "
         + "iniziolezione, "
         + "finelezione  ; "
-        + "identificativoattivita ;] "
+        + "identificativoattivita; "
+        + "identificativodocente;] "
 		),
 @View(
 		name="referenceAttivita",members=
@@ -36,8 +38,18 @@ import org.openxava.annotations.*;
         + "Generalità[tipologialezione  ; "
         + "iniziolezione, "
         + "finelezione  ; "
-        + "identificativoaula ;]  "
-		)
+        + "identificativoaula;"
+        + "identificativodocente ;]  "
+		),
+@View(
+		name="referenceDocente",members=
+        "" 	
+        + "Generalità[tipologialezione  ; "
+        + "iniziolezione, "
+        + "finelezione  ; "
+        + "identificativoattivita, "
+        + "identificativoaula;] "
+		),
 })
 @Tab(
 properties=
@@ -46,6 +58,7 @@ properties=
     +",  finelezione "
     + ", identificativoattivita.nomeattivita "
     + ", identificativoaula.nomeaula"
+    + ", identificativodocente.cognome"
 )
 
 public class Lezione {
@@ -82,6 +95,11 @@ public class Lezione {
     @NoModify
     @DescriptionsList(descriptionProperties="nomeaula, edificioaula")
     private Aula identificativoaula;
+    
+    @ManyToOne (fetch=FetchType.LAZY )
+    @JoinColumn(name="identificativoDocente", referencedColumnName = "identificativoDocente",  nullable=true,  unique=false  )
+    @ReferenceView ("reference") 
+    private Docente identificativodocente;
     
     public String getIdentificativolezione() {
         return identificativolezione;
@@ -129,4 +147,13 @@ public class Lezione {
     public void setIdentificativoaula (Aula identificativoaula) {
     	this.identificativoaula = identificativoaula;
     }
+    
+    public Docente getIdentificativodocente () {  //
+    	return identificativodocente;
+    }
+	
+    public void setIdentificativodocente (Docente identificativodocente) {
+    	this.identificativodocente = identificativodocente;//this.identificativodocente = docente;
+    }
+
 }

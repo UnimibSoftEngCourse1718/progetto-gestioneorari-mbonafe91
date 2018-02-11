@@ -1,5 +1,8 @@
 package it.java.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 import org.openxava.annotations.*;
 
@@ -11,7 +14,13 @@ import it.java.domain.TipologiaEsame;
 @Entity(name = "Esame")
 @Table(name = "esame")
 
-@View(members = "Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita  ];  ")
+@Views({
+	@View(members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita; identificativoattivita  ]}; ElencoIscritti{iscrizioneEsameViaIdentificativoesame}  "),
+	@View(name = "referenceAula", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ; identificativoattivita; identificativodocente  ]} "),
+	@View(name = "referenceAttivita", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula;identificativodocente  ]} "),
+	@View(name = "referenceDocente", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoattivita, identificativoaula;  ]} ")
+	
+})
 @Tab(properties = " inizioesame " + ",  fineesame " + ",  tipologiaesame, "
 		+ "identificativoaula.nomeaula,identificativoaula.edificioaula,identificativoattivita.nomeattivita "
 
@@ -52,7 +61,17 @@ public class Esame {
 	@ReferenceView("referenceList")
 	@DescriptionsList(descriptionProperties = "nomeattivita")
 	private Attivitadidattica identificativoattivita;
+	
+	@ManyToOne (fetch=FetchType.LAZY ,optional=false)
+    @JoinColumn(name="identificativoDocente", referencedColumnName = "identificativoDocente", nullable=false, unique=true  )
+    @ReferenceView ("reference") 
+    private Docente identificativodocente;
 
+
+	@ListProperties("identificativostudente.matricola")
+	@OneToMany (targetEntity=Iscrizione.class, fetch=FetchType.LAZY, mappedBy="identificativoesame")
+	private Set <Iscrizione> iscrizioneEsameViaIdentificativoesame = new HashSet<Iscrizione>(); 
+	   
 	public String getIdentificativoesame() {
 		return identificativoesame;
 	}
@@ -100,4 +119,28 @@ public class Esame {
 	public void setIdentificativoattivita(Attivitadidattica identificativoattivita) {
 		this.identificativoattivita = identificativoattivita;
 	}
+
+    public Docente getIdentificativodocente () {
+    	return identificativodocente;
+    }
+	
+    public void setIdentificativodocente (Docente identificativodocente) {
+    	this.identificativodocente = identificativodocente;
+    }
+
+	
+    public Set<Iscrizione> getIscrizioneEsameViaIdentificativoesame() {
+        if (iscrizioneEsameViaIdentificativoesame == null){
+            iscrizioneEsameViaIdentificativoesame = new HashSet<Iscrizione>();
+        }
+        return iscrizioneEsameViaIdentificativoesame;
+    }
+
+    public void setIscrizioneEsameViaIdentificativoesame (Set<Iscrizione> iscrizioneEsameViaIdentificativoesame) {
+        this.iscrizioneEsameViaIdentificativoesame = iscrizioneEsameViaIdentificativoesame;
+    }	
+    
+    public void addIscrizioneEsameViaIdentificativoesame (Iscrizione iscrizione) {
+    	    getIscrizioneEsameViaIdentificativoesame().add(iscrizione);
+    }
 }
