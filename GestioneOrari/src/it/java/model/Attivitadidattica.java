@@ -1,7 +1,6 @@
 package it.java.model;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Collection;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -68,12 +67,12 @@ public class Attivitadidattica {
 	@CollectionView("referenceAttivita")
 	@ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula, identificativolezione")
 	@OneToMany(targetEntity = Lezione.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
-	private Set<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita = new HashSet<Lezione>();
+	private Collection<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita;
 
 	@CollectionView("referenceAttivita")
 	@ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoaula.nomeaula, identificativoesame")
 	@OneToMany(targetEntity = Esame.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
-	private Set<Esame> esameAttivitadidatticaViaIdentificativoattivita = new HashSet<Esame>();
+	private Collection<Esame> esameAttivitadidatticaViaIdentificativoattivita;
 
 	public String getIdentificativoattivita() {
 		return identificativoattivita;
@@ -131,45 +130,30 @@ public class Attivitadidattica {
 		this.identificativocorso = identificativocorso;
 	}
 
-	public Docente getIdentificativodocente() { //
+	public Docente getIdentificativodocente() {
 		return identificativodocente;
 	}
 
 	public void setIdentificativodocente(Docente identificativodocente) {
-		this.identificativodocente = identificativodocente;// this.identificativodocente
-															// = docente;
+		this.identificativodocente = identificativodocente;
 	}
 
-	public Set<Lezione> getLezioneAttivitadidatticaViaIdentificativoattivita() {
-		if (lezioneAttivitadidatticaViaIdentificativoattivita == null) {
-			lezioneAttivitadidatticaViaIdentificativoattivita = new HashSet<Lezione>();
-		}
+	public Collection<Lezione> getLezioneAttivitadidatticaViaIdentificativoattivita() {
 		return lezioneAttivitadidatticaViaIdentificativoattivita;
 	}
 
 	public void setLezioneAttivitadidatticaViaIdentificativoattivita(
-			Set<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita) {
+			Collection<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita) {
 		this.lezioneAttivitadidatticaViaIdentificativoattivita = lezioneAttivitadidatticaViaIdentificativoattivita;
 	}
 
-	public void addLezioneAttivitadidatticaViaIdentificativoattivita(Lezione lezione) {
-		getLezioneAttivitadidatticaViaIdentificativoattivita().add(lezione);
-	}
-
-	public Set<Esame> getEsameAttivitadidatticaViaIdentificativoattivita() {
-		if (esameAttivitadidatticaViaIdentificativoattivita == null) {
-			esameAttivitadidatticaViaIdentificativoattivita = new HashSet<Esame>();
-		}
+	public Collection<Esame> getEsameAttivitadidatticaViaIdentificativoattivita() {
 		return esameAttivitadidatticaViaIdentificativoattivita;
 	}
 
 	public void setEsameAttivitadidatticaViaIdentificativoattivita(
-			Set<Esame> esameAttivitadidatticaViaIdentificativoattivita) {
+			Collection<Esame> esameAttivitadidatticaViaIdentificativoattivita) {
 		this.esameAttivitadidatticaViaIdentificativoattivita = esameAttivitadidatticaViaIdentificativoattivita;
-	}
-
-	public void addEsameAttivitadidatticaViaIdentificativoattivita(Esame esame) {
-		getEsameAttivitadidatticaViaIdentificativoattivita().add(esame);
 	}
 
 }

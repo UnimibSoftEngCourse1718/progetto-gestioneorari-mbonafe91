@@ -1,7 +1,6 @@
 package it.java.model;
 
-import java.util.Set;
-import java.util.HashSet;
+import java.util.Collection;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -57,7 +56,7 @@ baseCondition="trim(matricola)= ?"
     @RemoveAction("Collection.add")
     @ListProperties("identificativoesame.inizioesame , identificativoesame.fineesame ,  identificativoesame.tipologiaesame,identificativoesame.identificativoattivita.nomeattivita")
     @OneToMany (targetEntity=Iscrizione.class, fetch=FetchType.LAZY, mappedBy="identificativostudente")
-    private Set <Iscrizione> iscrizioneStudenteViaIdentificativostudente = new HashSet<Iscrizione>(); 
+    private Collection <Iscrizione> iscrizioneStudenteViaIdentificativostudente; 
    
 
     public String getIdentificativostudente() {
@@ -94,19 +93,13 @@ baseCondition="trim(matricola)= ?"
         this.matricola =  matricola;
     } 
 
-    public Set<Iscrizione> getIscrizioneStudenteViaIdentificativostudente() {
-        if (iscrizioneStudenteViaIdentificativostudente == null){
-            iscrizioneStudenteViaIdentificativostudente = new HashSet<Iscrizione>();
-        }
+    public Collection<Iscrizione> getIscrizioneStudenteViaIdentificativostudente() {
         return iscrizioneStudenteViaIdentificativostudente;
     }
 
-    public void setIscrizioneStudenteViaIdentificativostudente (Set<Iscrizione> iscrizioneStudenteViaIdentificativostudente) {
+    public void setIscrizioneStudenteViaIdentificativostudente (Collection<Iscrizione> iscrizioneStudenteViaIdentificativostudente) {
         this.iscrizioneStudenteViaIdentificativostudente = iscrizioneStudenteViaIdentificativostudente;
     }	
-    
-    public void addIscrizioneStudenteViaIdentificativostudente (Iscrizione iscrizione) {
-    	    getIscrizioneStudenteViaIdentificativostudente().add(iscrizione);
-    }
+
     
 }

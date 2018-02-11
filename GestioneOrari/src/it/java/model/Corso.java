@@ -1,7 +1,7 @@
 package it.java.model;
 
-import java.util.Set;
-import java.util.HashSet;
+
+import java.util.Collection;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -62,7 +62,7 @@ public class Corso {
     private Docente identificativodocente;
 	
 	@OneToMany(targetEntity = Attivitadidattica.class, fetch = FetchType.LAZY, mappedBy = "identificativocorso", cascade = CascadeType.REMOVE)
-	private Set<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso = new HashSet<Attivitadidattica>();
+	private Collection<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso;
 
 	public String getIdentificativocorso() {
 		return identificativocorso;
@@ -128,29 +128,22 @@ public class Corso {
 		this.tipologia = tipologia;
 	}
 	
-    public Docente getIdentificativodocente () {  //
+    public Docente getIdentificativodocente () {
     	return identificativodocente;
     }
 	
     public void setIdentificativodocente (Docente identificativodocente) {
-    	this.identificativodocente = identificativodocente;//this.identificativodocente = docente;
+    	this.identificativodocente = identificativodocente;
     }
 
 	
-	public Set<Attivitadidattica> getAttivitadidatticaCorsoViaIdentificativocorso() {
-		if (attivitadidatticaCorsoViaIdentificativocorso == null) {
-			attivitadidatticaCorsoViaIdentificativocorso = new HashSet<Attivitadidattica>();
-		}
+	public Collection<Attivitadidattica> getAttivitadidatticaCorsoViaIdentificativocorso() {
 		return attivitadidatticaCorsoViaIdentificativocorso;
 	}
 
 	public void setAttivitadidatticaCorsoViaIdentificativocorso(
-			Set<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso) {
+			Collection<Attivitadidattica> attivitadidatticaCorsoViaIdentificativocorso) {
 		this.attivitadidatticaCorsoViaIdentificativocorso = attivitadidatticaCorsoViaIdentificativocorso;
-	}
-
-	public void addAttivitadidatticaCorsoViaIdentificativocorso(Attivitadidattica attivitadidattica) {
-		getAttivitadidatticaCorsoViaIdentificativocorso().add(attivitadidattica);
 	}
 
 	

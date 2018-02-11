@@ -1,7 +1,6 @@
 package it.java.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Collection;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -70,7 +69,7 @@ public class Esame {
 
 	@ListProperties("identificativostudente.matricola")
 	@OneToMany (targetEntity=Iscrizione.class, fetch=FetchType.LAZY, mappedBy="identificativoesame")
-	private Set <Iscrizione> iscrizioneEsameViaIdentificativoesame = new HashSet<Iscrizione>(); 
+	private Collection <Iscrizione> iscrizioneEsameViaIdentificativoesame; 
 	   
 	public String getIdentificativoesame() {
 		return identificativoesame;
@@ -129,18 +128,12 @@ public class Esame {
     }
 
 	
-    public Set<Iscrizione> getIscrizioneEsameViaIdentificativoesame() {
-        if (iscrizioneEsameViaIdentificativoesame == null){
-            iscrizioneEsameViaIdentificativoesame = new HashSet<Iscrizione>();
-        }
+    public Collection<Iscrizione> getIscrizioneEsameViaIdentificativoesame() {
         return iscrizioneEsameViaIdentificativoesame;
     }
 
-    public void setIscrizioneEsameViaIdentificativoesame (Set<Iscrizione> iscrizioneEsameViaIdentificativoesame) {
+    public void setIscrizioneEsameViaIdentificativoesame (Collection<Iscrizione> iscrizioneEsameViaIdentificativoesame) {
         this.iscrizioneEsameViaIdentificativoesame = iscrizioneEsameViaIdentificativoesame;
     }	
-    
-    public void addIscrizioneEsameViaIdentificativoesame (Iscrizione iscrizione) {
-    	    getIscrizioneEsameViaIdentificativoesame().add(iscrizione);
-    }
+
 }

@@ -1,8 +1,7 @@
 package it.java.model;
 
-import java.util.Set;
-import java.util.HashSet;
 
+import java.util.Collection;
 import javax.persistence.*;
 import org.openxava.annotations.*;
 
@@ -21,8 +20,8 @@ import org.openxava.annotations.*;
         + "nomeaula  ; "
         + "indirizzoaula , "
         + "edificioaula  ]; "
-	  //  + "esameAulaViaIdentificativoaula;" 
-	  //  + "lezioneAulaViaIdentificativoaula;" 
+	    + "esameAulaViaIdentificativoaula;" 
+	    + "lezioneAulaViaIdentificativoaula;" 
 	),
     @View(name="reference", 
     members="" 	
@@ -62,12 +61,13 @@ public class Aula {
     @CollectionView("referenceAula")
     @ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoattivita.nomeattivita, identificativoesame")
     @OneToMany (targetEntity=Esame.class, fetch=FetchType.LAZY, mappedBy="identificativoaula")
-    private Set <Esame> esameAulaViaIdentificativoaula = new HashSet<Esame>(); 
+	private Collection<Esame> esameAulaViaIdentificativoaula;
 
-    @CollectionView("referenceAula")
+
+	@CollectionView("referenceAula")
     @ListProperties("tipologialezione,iniziolezione,finelezione,identificativoattivita.nomeattivita,identificativolezione")
     @OneToMany (targetEntity=Lezione.class, fetch=FetchType.LAZY, mappedBy="identificativoaula")
-    private Set <Lezione> lezioneAulaViaIdentificativoaula = new HashSet<Lezione>(); 
+    private Collection <Lezione> lezioneAulaViaIdentificativoaula; 
 
     public String getIdentificativoaula() {
         return identificativoaula;
@@ -101,33 +101,21 @@ public class Aula {
         this.edificioaula =  edificioaula;
     } 
 
-    public Set<Esame> getEsameAulaViaIdentificativoaula() {
-        if (esameAulaViaIdentificativoaula == null){
-            esameAulaViaIdentificativoaula = new HashSet<Esame>();
-        }
-        return esameAulaViaIdentificativoaula;
-    }
+	public Collection<Esame> getEsameAulaViaIdentificativoaula() {
+		return esameAulaViaIdentificativoaula;
+	}
 
-    public void setEsameAulaViaIdentificativoaula (Set<Esame> esameAulaViaIdentificativoaula) {
-        this.esameAulaViaIdentificativoaula = esameAulaViaIdentificativoaula;
-    }	
+	public void setEsameAulaViaIdentificativoaula(Collection<Esame> esameAulaViaIdentificativoaula) {
+		this.esameAulaViaIdentificativoaula = esameAulaViaIdentificativoaula;
+	}
     
-    public void addEsameAulaViaIdentificativoaula (Esame esame) {
-    	    getEsameAulaViaIdentificativoaula().add(esame);
-    }
     
-    public Set<Lezione> getLezioneAulaViaIdentificativoaula() {
-        if (lezioneAulaViaIdentificativoaula == null){
-            lezioneAulaViaIdentificativoaula = new HashSet<Lezione>();
-        }
+    public Collection<Lezione> getLezioneAulaViaIdentificativoaula() {
         return lezioneAulaViaIdentificativoaula;
     }
 
-    public void setLezioneAulaViaIdentificativoaula (Set<Lezione> lezioneAulaViaIdentificativoaula) {
+    public void setLezioneAulaViaIdentificativoaula (Collection<Lezione> lezioneAulaViaIdentificativoaula) {
         this.lezioneAulaViaIdentificativoaula = lezioneAulaViaIdentificativoaula;
     }	
     
-    public void addLezioneAulaViaIdentificativoaula (Lezione lezione) {
-    	    getLezioneAulaViaIdentificativoaula().add(lezione);
-    }
 }
