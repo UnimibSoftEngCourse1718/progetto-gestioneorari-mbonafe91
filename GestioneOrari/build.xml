@@ -68,7 +68,7 @@
 	<property name="sonar.host.url" value="http://localhost:9000" />
 
 	<!-- Define the Sonar properties -->
-	<property name="sonar.projectKey" value="org.sonarqube:sonarqube-scanner-ant" />
+	<property name="sonar.projectKey" value="IS_PROJECT_GestioneOrari_webapp" />
 	<property name="sonar.sources" value="src" />
 	<property name="sonar.java.binaries" value="${deploy.dir}/${project}${war.dir.suffix}/WEB-INF/classes" />
 	<property name="sonar.java.libraries" value="web/WEB-INF/lib/*.jar" />
