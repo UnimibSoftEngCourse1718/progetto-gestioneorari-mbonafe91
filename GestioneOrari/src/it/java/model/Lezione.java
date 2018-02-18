@@ -37,7 +37,7 @@ import it.java.validator.DisponibilitaDocentePerLezione;
 				@PropertyValue(name = "iniziolezione"),
 				@PropertyValue(name = "finelezione"), 
 				@PropertyValue(name = "identificativodocente")})
-
+@Embeddable
 public class Lezione {
 
 

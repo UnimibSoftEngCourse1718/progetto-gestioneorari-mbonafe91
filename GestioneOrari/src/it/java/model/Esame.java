@@ -15,7 +15,7 @@ import it.java.validator.DisponibilitaDocentePerEsame;
 @Table(name = "esame")
 
 @Views({
-	@View(members = "Esame{identificativoesame; Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita;identificativodocente  ]; iscrizioneEsameViaIdentificativoesame } "),
+	@View(members = "Esame{identificativoesame; Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita;identificativodocente  ] } "),
 	@View(name = "referenceAula", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ; identificativoattivita; identificativodocente  ]} "),
 	@View(name = "referenceAttivita", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula;identificativodocente  ]} "),
 	@View(name = "referenceDocente", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoattivita, identificativoaula;  ]} "),
@@ -33,6 +33,7 @@ import it.java.validator.DisponibilitaDocentePerEsame;
 				@PropertyValue(name = "fineesame"), 
 				@PropertyValue(name = "identificativodocente"),
 				@PropertyValue(name = "identificativoesame" )})
+@Embeddable
 public class Esame {
 
 	@ReadOnly

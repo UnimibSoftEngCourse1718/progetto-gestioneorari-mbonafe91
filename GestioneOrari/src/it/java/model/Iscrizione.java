@@ -9,12 +9,15 @@ import org.openxava.annotations.*;
 
 @Entity(name = "Iscrizione")
 @Table(name = "iscrizione")
-@View(members = "identificativoiscrizione ; identificativostudente; identificativoesame; identificativostudente.identificativostudente")
+@Views({
+	@View(members = "identificativoiscrizione ; identificativostudente; identificativoesame; identificativostudente.identificativostudente"),
+	@View(name = "referenceStudente",members = "identificativoiscrizione ;identificativoesame; identificativostudente.identificativostudente")
+})
 @Tab(properties = " identificativostudente.matricola, " + "identificativoesame.inizioesame , "
 		+ "identificativoesame.fineesame , " + "identificativoesame.tipologiaesame "
 		+ ", identificativoesame.identificativoattivita.nomeattivita ")
 
-
+@Embeddable
 public class Iscrizione {
 
 	@ReadOnly
@@ -24,6 +27,9 @@ public class Iscrizione {
 	@org.hibernate.annotations.GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String identificativoiscrizione;
 
+	@NoModify
+	@NoCreate
+	@DescriptionsList(forViews="referenceIscrizione")
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "identificativoEsame", referencedColumnName = "identificativoEsame", nullable = false, unique = false)
 	private Esame identificativoesame;
