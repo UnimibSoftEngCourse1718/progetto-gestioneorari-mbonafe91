@@ -14,24 +14,6 @@
 
 	<display-name>OpenXava Application</display-name>
 
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Richiesta autenticazione</web-resource-name>
-			<url-pattern>/*</url-pattern>
-			<http-method>GET</http-method>
-			<http-method>POST</http-method>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>docente</role-name>
-			<role-name>studente</role-name>
-			<role-name>docente</role-name>
-		</auth-constraint>
-	</security-constraint>
-
-	<login-config>
-		<auth-method>BASIC</auth-method>
-	</login-config>
-
 	<!-- Addons filters begin -->
 	<filter>
 		<filter-name>naviox</filter-name>
