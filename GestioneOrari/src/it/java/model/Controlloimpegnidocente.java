@@ -1,4 +1,4 @@
-package it.java.check;
+package it.java.model;
 
 import javax.persistence.*;
 import org.openxava.annotations.*;
@@ -8,16 +8,38 @@ import org.openxava.annotations.*;
  * @author MBONAFE
  */
 @Entity (name="Controlloimpegnidocente")
-@Table (name="controlloimpegnidocente") 
+@Table (name="controlloimpegnidocente") @Views({
+	@View(
+		members=
+        "" 	
+        + "tipo  ; "
+        + "identificativodocente  ; "
+        + "identificativoimpegnodocente  ; "
+        + "inizioimpegnodocente  ; "
+        + "fineimpegnodocente  ; "
+        + "messaggio  ; "
+		)})
 
-public class ControlloImpegniDocente {
+@Tab(
+properties=
+     " tipo "
+    +",  identificativodocente "
+    +",  identificativoimpegnodocente "
+    +",  inizioimpegnodocente "
+    +",  fineimpegnodocente "
+    +",  messaggio "
+)
 
-     @Id @Column(name="tipo" ,length=7)
+public class Controlloimpegnidocente {
+	
+    @Column(name="tipo" ,length=7)
     private String tipo; 
+
 
     @Column(name="identificativodocente",  length=36,   nullable=true,  unique=false, insertable=false, updatable=false)
     private String identificativodocente;
 
+    @Id
     @Column(name="identificativoimpegnodocente",  length=36,  nullable=false,  unique=false, insertable=false, updatable=false)
     @Required
     private String identificativoimpegnodocente;
@@ -52,6 +74,29 @@ public class ControlloImpegniDocente {
         this.identificativodocente =  identificativodocente;
     } 
 
+    public String getIdentificativoimpegnodocente() {
+        return identificativoimpegnodocente;
+    }
+	
+    public void setIdentificativoimpegnodocente (String identificativoimpegnodocente) {
+        this.identificativoimpegnodocente =  identificativoimpegnodocente;
+    } 
+
+    public java.util.Date getInizioimpegnodocente() {
+        return inizioimpegnodocente;
+    }
+	
+    public void setInizioimpegnodocente (java.util.Date inizioimpegnodocente) {
+        this.inizioimpegnodocente =  inizioimpegnodocente;
+    } 
+
+    public java.util.Date getFineimpegnodocente() {
+        return fineimpegnodocente;
+    }
+	
+    public void setFineimpegnodocente (java.util.Date fineimpegnodocente) {
+        this.fineimpegnodocente =  fineimpegnodocente;
+    } 
 
     public String getMessaggio() {
         return messaggio;
@@ -59,30 +104,5 @@ public class ControlloImpegniDocente {
 	
     public void setMessaggio (String messaggio) {
         this.messaggio =  messaggio;
-    }
-
-	public String getIdentificativoimpegnodocente() {
-		return identificativoimpegnodocente;
-	}
-
-	public void setIdentificativoimpegnodocente(String identificativoimpegnodocente) {
-		this.identificativoimpegnodocente = identificativoimpegnodocente;
-	}
-
-	public java.util.Date getInizioimpegnodocente() {
-		return inizioimpegnodocente;
-	}
-
-	public void setInizioimpegnodocente(java.util.Date inizioimpegnodocente) {
-		this.inizioimpegnodocente = inizioimpegnodocente;
-	}
-
-	public java.util.Date getFineimpegnodocente() {
-		return fineimpegnodocente;
-	}
-
-	public void setFineimpegnodocente(java.util.Date fineimpegnodocente) {
-		this.fineimpegnodocente = fineimpegnodocente;
-	} 
-
+    } 
 }

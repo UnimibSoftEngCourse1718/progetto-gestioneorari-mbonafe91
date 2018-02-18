@@ -51,7 +51,7 @@ public class DisponibilitaDocentePerEsame implements IValidator {
 		message[1] = "Docente non disponibile, verificare date/orari di inizio e fine, docente impegnato già con una lezione";
 		message[2] = "Docente non disponibile, verificare date/orari di inizio e fine, docente impegnato già con un esame";
 		message[3] = "Errore di Sistema contattare l'amministratore";
-
+		
 		Boolean[] controlli = EseguiControlli.run(query, identificativodocente, inizioesame, fineesame, identificativoesame); 
 
 		for(int i=0; i<controlli.length;i++)
