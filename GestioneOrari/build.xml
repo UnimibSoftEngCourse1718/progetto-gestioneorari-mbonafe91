@@ -6,7 +6,7 @@
 	<property name="ox3" value="true" />
 	<property file="../openxava.properties"/>
 	<property name="deploy.dir" value="deploy"/>
-	<property name="war.dir.suffix" value="war"/>
+	<property name="war.dir.suffix" value=".war"/>
 
 	<!-- 
 	Compile all .java and .groovy 
