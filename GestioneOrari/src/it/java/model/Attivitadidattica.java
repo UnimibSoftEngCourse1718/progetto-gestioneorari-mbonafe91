@@ -64,13 +64,12 @@ public class Attivitadidattica {
 	@DescriptionsList(descriptionProperties = "denominazione")
 	private Docente identificativodocente;
 
-	@ReadOnly
+
 	@CollectionView("referenceAttivita")
 	@ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula")
 	@OneToMany(targetEntity = Lezione.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
 	private Collection<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita;
 
-	@ReadOnly
 	@CollectionView("referenceAttivita")
 	@ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoaula.nomeaula, identificativoesame")
 	@OneToMany(targetEntity = Esame.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
