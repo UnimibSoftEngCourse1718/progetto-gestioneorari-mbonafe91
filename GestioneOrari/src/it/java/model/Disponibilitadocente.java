@@ -16,7 +16,6 @@ import org.openxava.annotations.*;
 //        + "identificativodisponibilita  ; "
 //        + "disponibilitada  ; "
 //        + "disponibilitaa  ; "
-//        + "tipo  ; "
 //        + "identificativodocente  ; "
 //		)
 //
@@ -49,10 +48,6 @@ public class Disponibilitadocente {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date disponibilitaa;
 
-    @Column(name="tipo",  length=45,  nullable=false,  unique=false)
-    @Required
-    private String tipo;
-
     @ManyToOne (fetch=FetchType.LAZY ,optional=false) //remove optional=false to aggragate but leads to a side effect when going directly to the entity: required check is not performed=> if no set DB check constraint is raised...
     @JoinColumn(name="identificativoDocente", referencedColumnName = "identificativoDocente", nullable=false,  unique=false  )
     @ReferenceView ("reference") 
@@ -84,14 +79,6 @@ public class Disponibilitadocente {
 	
     public void setDisponibilitaa (java.util.Date disponibilitaa) {
         this.disponibilitaa =  disponibilitaa;
-    } 
-
-    public String getTipo() {
-        return tipo;
-    }
-	
-    public void setTipo (String tipo) {
-        this.tipo =  tipo;
     } 
 
 

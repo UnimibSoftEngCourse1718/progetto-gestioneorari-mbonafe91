@@ -6,6 +6,7 @@ import javax.persistence.*;
 import org.openxava.annotations.*;
 
 import it.java.domain.TipologiaEsame;
+import it.java.validator.DisponibilitaDocentePerEsame;
 
 /**
  * @author MBONAFE
@@ -14,20 +15,27 @@ import it.java.domain.TipologiaEsame;
 @Table(name = "esame")
 
 @Views({
-	@View(members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita; identificativoattivita  ]}; ElencoIscritti{iscrizioneEsameViaIdentificativoesame}  "),
+	@View(members = "Esame{identificativoesame; Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula  , identificativoattivita;identificativodocente  ]; iscrizioneEsameViaIdentificativoesame } "),
 	@View(name = "referenceAula", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ; identificativoattivita; identificativodocente  ]} "),
 	@View(name = "referenceAttivita", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoaula;identificativodocente  ]} "),
-	@View(name = "referenceDocente", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoattivita, identificativoaula;  ]} ")
-	
+	@View(name = "referenceDocente", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoattivita, identificativoaula;  ]} "),
+	@View(name = "referenceIscrizione", members = "Esame{Generalità [inizioesame  ,  fineesame  ;  tipologiaesame ;identificativoattivita, identificativoaula;identificativodocente]} ")
 })
 @Tab(properties = " inizioesame " + ",  fineesame " + ",  tipologiaesame, "
 		+ "identificativoaula.nomeaula,identificativoaula.edificioaula,identificativoattivita.nomeattivita "
 
 )
 
+@EntityValidator( 
+		value = DisponibilitaDocentePerEsame.class,
+		properties = { 
+				@PropertyValue(name = "inizioesame"),
+				@PropertyValue(name = "fineesame"), 
+				@PropertyValue(name = "identificativodocente"),
+				@PropertyValue(name = "identificativoesame" )})
 public class Esame {
 
-	@Hidden
+	@ReadOnly
 	@Id
 	@Column(name = "identificativoEsame")
 	@GeneratedValue(generator = "system-uuid")
@@ -67,7 +75,7 @@ public class Esame {
     private Docente identificativodocente;
 
 
-	@ListProperties("identificativostudente.matricola")
+	@ListProperties("identificativostudente.matricola,identificativostudente.cognome,identificativostudente.nome,identificativostudente.identificativostudente")
 	@OneToMany (targetEntity=Iscrizione.class, fetch=FetchType.LAZY, mappedBy="identificativoesame")
 	private Collection <Iscrizione> iscrizioneEsameViaIdentificativoesame; 
 	   
@@ -134,6 +142,6 @@ public class Esame {
 
     public void setIscrizioneEsameViaIdentificativoesame (Collection<Iscrizione> iscrizioneEsameViaIdentificativoesame) {
         this.iscrizioneEsameViaIdentificativoesame = iscrizioneEsameViaIdentificativoesame;
-    }	
+    }
 
 }

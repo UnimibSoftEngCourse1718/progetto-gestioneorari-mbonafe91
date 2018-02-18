@@ -15,7 +15,7 @@ import it.java.domain.SiNo;
 @Tab(properties = " tipoRisorsa ,  descrizioneRisorsa ,  libera ")
 public class Risorsa {
 
-	@Hidden
+	@ReadOnly
 	@Id
 	@Column(name = "identificativoRisorsa")
 	@GeneratedValue(generator = "system-uuid")

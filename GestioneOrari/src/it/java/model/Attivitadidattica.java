@@ -11,7 +11,7 @@ import org.openxava.annotations.*;
 
 @Entity(name = "Attivitadidattica")
 @Table(name = "attivitadidattica")
-@Views({ @View(members = "Generalità [nomeattivita; descrizioneattivita]; "
+@Views({ @View(members = "identificativoattivita; Generalità [nomeattivita; descrizioneattivita]; "
 		+ "Dettagli [cfu,annodicorso,annoaccademico; identificativocorso,identificativodocente ]; "
 		+ "lezioneAttivitadidatticaViaIdentificativoattivita;" + "esameAttivitadidatticaViaIdentificativoattivita;"),
 		@View(name = "reference", members = "Generalità [nomeattivita; descrizioneattivita]; "
@@ -25,7 +25,7 @@ import org.openxava.annotations.*;
 
 public class Attivitadidattica {
 
-	@Hidden
+	@ReadOnly
 	@Id
 	@Column(name = "identificativoAttivita", length = 36)
 	@GeneratedValue(generator = "system-uuid")
@@ -64,11 +64,13 @@ public class Attivitadidattica {
 	@DescriptionsList(descriptionProperties = "denominazione")
 	private Docente identificativodocente;
 
+	@ReadOnly
 	@CollectionView("referenceAttivita")
-	@ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula, identificativolezione")
+	@ListProperties("tipologialezione,iniziolezione,finelezione,identificativoaula.nomeaula")
 	@OneToMany(targetEntity = Lezione.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
 	private Collection<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita;
 
+	@ReadOnly
 	@CollectionView("referenceAttivita")
 	@ListProperties("inizioesame,  fineesame,  tipologiaesame, identificativoaula.nomeaula, identificativoesame")
 	@OneToMany(targetEntity = Esame.class, fetch = FetchType.LAZY, mappedBy = "identificativoattivita")
@@ -137,6 +139,11 @@ public class Attivitadidattica {
 	public void setIdentificativodocente(Docente identificativodocente) {
 		this.identificativodocente = identificativodocente;
 	}
+	
+
+	public Collection<Esame> getEsameAttivitadidatticaViaIdentificativoattivita() {
+		return esameAttivitadidatticaViaIdentificativoattivita;
+	}
 
 	public Collection<Lezione> getLezioneAttivitadidatticaViaIdentificativoattivita() {
 		return lezioneAttivitadidatticaViaIdentificativoattivita;
@@ -145,10 +152,6 @@ public class Attivitadidattica {
 	public void setLezioneAttivitadidatticaViaIdentificativoattivita(
 			Collection<Lezione> lezioneAttivitadidatticaViaIdentificativoattivita) {
 		this.lezioneAttivitadidatticaViaIdentificativoattivita = lezioneAttivitadidatticaViaIdentificativoattivita;
-	}
-
-	public Collection<Esame> getEsameAttivitadidatticaViaIdentificativoattivita() {
-		return esameAttivitadidatticaViaIdentificativoattivita;
 	}
 
 	public void setEsameAttivitadidatticaViaIdentificativoattivita(

@@ -13,12 +13,12 @@ import org.openxava.annotations.*;
 @Table (name="studente") 
 	@View(
 		members=
-        "" 	
-        + "Generalità{identificativostudente  ; "
+		""
+        + "Generalità[identificativostudente  ; "
         + "nome  ; "
         + "cognome  ; "
-        + "matricola  ;} "
-	    + "Iscrizioni{iscrizioneStudenteViaIdentificativostudente};" 
+        + "matricola  ;]; "
+	    + "iscrizioneStudenteViaIdentificativostudente;" 
 	)
 
 
@@ -32,29 +32,30 @@ properties=
 baseCondition="trim(matricola)= ?"
 )
 
-
     public class Studente {
 
-	@Hidden  @Id @Column(name="identificativoStudente" ,length=36)
+	@ReadOnly  @Id @Column(name="identificativoStudente" ,length=36)
     @GeneratedValue(generator = "system-uuid")
     @org.hibernate.annotations.GenericGenerator(name = "system-uuid", strategy = "uuid") 
     private String identificativostudente; 
 
+	@ReadOnly
      @Column(name="nome",  length=45,  nullable=false,  unique=false)
     @Required
     private String nome;
 
+	@ReadOnly
      @Column(name="cognome",  length=45,  nullable=false,  unique=false)
     @Required
     private String cognome;
 
+	@ReadOnly
     @Column(name="matricola",  length=10,  nullable=false,  unique=false)
     @Required
     private String matricola;
 
-    
-    @RemoveAction("Collection.add")
-    @ListProperties("identificativoesame.inizioesame , identificativoesame.fineesame ,  identificativoesame.tipologiaesame,identificativoesame.identificativoattivita.nomeattivita")
+	@CollectionView("referenceStudente")
+    @ListProperties("identificativoesame.inizioesame , identificativoesame.fineesame ,  identificativoesame.tipologiaesame,identificativoesame.identificativoattivita.nomeattivita, identificativostudente.identificativostudente")
     @OneToMany (targetEntity=Iscrizione.class, fetch=FetchType.LAZY, mappedBy="identificativostudente")
     private Collection <Iscrizione> iscrizioneStudenteViaIdentificativostudente; 
    

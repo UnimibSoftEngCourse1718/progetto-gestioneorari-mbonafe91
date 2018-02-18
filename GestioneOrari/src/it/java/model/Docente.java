@@ -18,11 +18,13 @@ import org.openxava.annotations.*;
 	        + "identificativodocente  ; "
 	        + "denominazione  ; "
 	        + "specializzazione  ; "
-		    + "attivitadidatticaDocenteViaIdentificativodocente { attivitadidatticaDocenteViaIdentificativodocente };" 
-		    + "corsoDocenteViaIdentificativodocente { corsoDocenteViaIdentificativodocente };" 
-		    + "disponibilitadocenteDocenteViaIdentificativodocente { disponibilitadocenteDocenteViaIdentificativodocente };" 
-		    + "esameDocenteViaIdentificativodocente { esameDocenteViaIdentificativodocente };" 
-		    + "lezioneDocenteViaIdentificativodocente { lezioneDocenteViaIdentificativodocente };" 
+	        + "Dettagli{"
+		    + "attivitadidatticaDocenteViaIdentificativodocente;" 
+		    + "corsoDocenteViaIdentificativodocente;" 
+		    + "disponibilitadocenteDocenteViaIdentificativodocente;" 
+		    + "esameDocenteViaIdentificativodocente;" 
+		    + "lezioneDocenteViaIdentificativodocente "
+		    + "};" 
 	),
 	@View( name="reference",
 			members=
@@ -58,18 +60,26 @@ public class Docente {
     @Required
     private String specializzazione;
 
+    @ReadOnly
+    @ListProperties("nomeattivita; descrizioneattivita,cfu,annodicorso,annoaccademico, identificativocorso.nomecorso")
     @OneToMany (targetEntity=Attivitadidattica.class, fetch=FetchType.LAZY, mappedBy="identificativodocente")
     private Collection <Attivitadidattica> attivitadidatticaDocenteViaIdentificativodocente; 
    
+    @ReadOnly
+    @ListProperties("nomecorso, descrizionecorso, facolta, durata, cfu, tipologia, attivo")
     @OneToMany (targetEntity=Corso.class, fetch=FetchType.LAZY, mappedBy="identificativodocente")
     private Collection <Corso> corsoDocenteViaIdentificativodocente; 
 
     @OneToMany (targetEntity=Disponibilitadocente.class, fetch=FetchType.LAZY, mappedBy="identificativodocente")
     private Collection <Disponibilitadocente> disponibilitadocenteDocenteViaIdentificativodocente; 
 
+    @ReadOnly
+    @ListProperties("inizioesame  ,  fineesame  ,  tipologiaesame ,identificativoaula.nomeaula  , identificativoattivita.nomeattivita")
     @OneToMany (targetEntity=Esame.class, fetch=FetchType.LAZY, mappedBy="identificativodocente")
     private Collection <Esame> esameDocenteViaIdentificativodocente; 
    
+    @ReadOnly
+    @ListProperties("iniziolezione  ,  finelezione  ,  tipologialezione ,identificativoaula.nomeaula  , identificativoattivita.nomeattivita")
     @OneToMany (targetEntity=Lezione.class, fetch=FetchType.LAZY, mappedBy="identificativodocente")
     private Collection <Lezione> lezioneDocenteViaIdentificativodocente; 
    
