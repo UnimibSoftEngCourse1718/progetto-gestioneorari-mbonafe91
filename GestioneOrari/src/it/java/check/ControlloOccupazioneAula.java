@@ -27,13 +27,13 @@ public class ControlloOccupazioneAula {
     
     @ReadOnly
 	@Stereotype("DATETIME")
-    @Column(name="inizio")  
-    private java.util.Date  inizio;
+    @Column(name="iniziooccupazioneaula")  
+    private java.util.Date  inizioOccupazioneAula;
     
     @ReadOnly
 	@Stereotype("DATETIME")
-    @Column(name="fine")  
-    private java.util.Date  fine;
+    @Column(name="fineoccupazioneaula")  
+    private java.util.Date  fineOccupazioneAula;
 
 
     @Column(name="nomeAula",  length=100)
@@ -68,21 +68,7 @@ public class ControlloOccupazioneAula {
 		this.identificativo = identificativo;
 	}
 
-	public java.util.Date getInizio() {
-		return inizio;
-	}
-
-	public void setInizio(java.util.Date inizio) {
-		this.inizio = inizio;
-	}
-
-	public java.util.Date getFine() {
-		return fine;
-	}
-
-	public void setFine(java.util.Date fine) {
-		this.fine = fine;
-	}
+	
 
 	public String getNomeaula() {
 		return nomeaula;
@@ -98,6 +84,22 @@ public class ControlloOccupazioneAula {
 
 	public void setEdificioaula(String edificioaula) {
 		this.edificioaula = edificioaula;
+	}
+
+	public java.util.Date getInizioOccupazioneAula() {
+		return inizioOccupazioneAula;
+	}
+
+	public void setInizioOccupazioneAula(java.util.Date inizioOccupazioneAula) {
+		this.inizioOccupazioneAula = inizioOccupazioneAula;
+	}
+
+	public java.util.Date getFineOccupazioneAula() {
+		return fineOccupazioneAula;
+	}
+
+	public void setFineOccupazioneAula(java.util.Date fineOccupazioneAula) {
+		this.fineOccupazioneAula = fineOccupazioneAula;
 	}
 
 }
