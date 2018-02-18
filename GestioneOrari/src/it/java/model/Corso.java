@@ -6,6 +6,9 @@ import java.util.Collection;
 import javax.persistence.*;
 import org.openxava.annotations.*;
 
+import it.java.domain.SiNo;
+import it.java.domain.TipologiaCorso;
+
 /**
  * @author MBONAFE
  */
@@ -13,14 +16,15 @@ import org.openxava.annotations.*;
 @Entity(name = "Corso")
 @Table(name = "corso")
 @Views({
-@View(members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;identificativodocente]; Attivit‡Didattiche[attivitadidatticaCorsoViaIdentificativocorso]"),
+@View(members = "Generalit‡{nomecorso; descrizionecorso; Dettagli[facolta; durata, cfu, tipologia; attivo;identificativodocente]}; "
+		       + "Attivit‡Didattiche{attivitadidatticaCorsoViaIdentificativocorso}"),
 @View(name="reference" ,members = "Generalit‡[nomecorso; descrizionecorso;]; Dettagli[facolta; durata, cfu, tipologia; attivo;identificativodocente]")
 })
 @Tab(properties = " nomecorso, descrizionecorso, facolta, durata, attivo, cfu, tipologia ")
 
 public class Corso {
 
-	@Hidden
+	@ReadOnly
 	@Id
 	@Column(name = "identificativoCorso")
 	@GeneratedValue(generator = "system-uuid")
@@ -31,8 +35,8 @@ public class Corso {
 	@Required
 	private String nomecorso;
 
-	@Stereotype("MEMO")
-	@Column(name = "descrizioneCorso", length = 500, nullable = false, unique = false)
+	@Stereotype("HTML_TEXT")
+	@Column(name = "descrizioneCorso",length=1000, nullable = false, unique = false)
 	@Required
 	private String descrizionecorso;
 	
@@ -46,7 +50,8 @@ public class Corso {
 	
 	@Column(name = "attivo", nullable = false, unique = false)
 	@Required
-	private Short attivo;
+	@Enumerated(EnumType.STRING)
+	private SiNo attivo;
 	
 	@Column(name = "CFU", nullable = false, unique = false)
 	@Required
@@ -54,11 +59,13 @@ public class Corso {
 	
 	@Column(name = "tipologia", length = 100, nullable = false, unique = false)
 	@Required
-	private String tipologia;
+	@Enumerated(EnumType.STRING)
+	private TipologiaCorso tipologia;
 	
     @ManyToOne (fetch=FetchType.LAZY ,optional=false)
     @JoinColumn(name="identificativoDocente", referencedColumnName = "identificativoDocente", nullable=false,  unique=false  )
     @ReferenceView ("reference") 
+    @DescriptionsList(descriptionProperties="denominazione")
     private Docente identificativodocente;
 	
 	@OneToMany(targetEntity = Attivitadidattica.class, fetch = FetchType.LAZY, mappedBy = "identificativocorso", cascade = CascadeType.REMOVE)
@@ -104,11 +111,11 @@ public class Corso {
 		this.durata = durata;
 	}
 	
-	public Short getAttivo() {
+	public SiNo getAttivo() {
 		return attivo;
 	}
 
-	public void setAttivo(Short attivo) {
+	public void setAttivo(SiNo attivo) {
 		this.attivo = attivo;
 	}
 	
@@ -120,11 +127,11 @@ public class Corso {
 		this.cfu = cfu;
 	}
 	
-	public String getTipologia() {
+	public TipologiaCorso getTipologia() {
 		return tipologia;
 	}
 
-	public void setTipologia(String tipologia) {
+	public void setTipologia(TipologiaCorso tipologia) {
 		this.tipologia = tipologia;
 	}
 	
