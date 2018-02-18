@@ -1,14 +1,11 @@
 package it.java.validator;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+
 import java.util.Date;
 import org.openxava.util.*;
 import org.openxava.validators.*;
 
 import it.java.model.Docente;
-import it.java.util.GetConnection;
 
 public class DisponibilitaDocentePerEsame implements IValidator {
 
@@ -17,12 +14,9 @@ public class DisponibilitaDocentePerEsame implements IValidator {
 	Docente identificativodocente;
 	String identificativoesame;
 
-	private static String RESULT_FIELD = "result";
-
 	@Override
 	public void validate(Messages errors) throws Exception {
 
-		Boolean check = false;
 		String[] query = new String[3];
 
 		/**
@@ -51,62 +45,18 @@ public class DisponibilitaDocentePerEsame implements IValidator {
 				+ "and (fineesame between ? and ?))"
 				+ "and identificativoesame <> ?";
 
-		String[] message = new String[3];
+		String[] message = new String[4];
 
 		message[0] = "Docente non disponibile, verificare date/orari di inizio e fine rispetto alle disponibilità del docente";
 		message[1] = "Docente non disponibile, verificare date/orari di inizio e fine, docente impegnato già con una lezione";
 		message[2] = "Docente non disponibile, verificare date/orari di inizio e fine, docente impegnato già con un esame";
+		message[3] = "Errore di Sistema contattare l'amministratore";
 
-		for (int i = 0; i <= query.length-1; i++) {
-			Connection conn = null;
-			check = false;
-			try {
-				conn = GetConnection.getJNDIConnection();
-				PreparedStatement ps = null;
+		Boolean[] controlli = EseguiControlli.run(query, identificativodocente, inizioesame, fineesame, identificativoesame); 
 
-				try {
-					ps = conn.prepareStatement(query[i]);
-					ps.setString(1, identificativodocente.getIdentificativodocente());
-					ps.setString(2, inizioesame.toString());
-					ps.setString(3, fineesame.toString());
-					if (i > 0) {
-						ps.setString(4, inizioesame.toString());
-						ps.setString(5, fineesame.toString());
-						ps.setString(6, inizioesame.toString());
-						ps.setString(7, fineesame.toString());
-					}
-					if (i > 1)
-						ps.setString(8, identificativoesame);
-					ResultSet rs = null;
-					try {
-						rs = ps.executeQuery();
-						while (rs.next()) {
-							Integer result = null;
-							try {
-								result = rs.getInt(RESULT_FIELD);
-							} finally {
-								if (result > 0)
-									check = true;
-							}
-						}
-					} finally {
-						if (rs != null)
-							rs.close();
-					}
-					if (check) {
-						errors.add(message[i]);
-					}
-				} finally {
-					if (ps != null)
-						ps.close();
-				}
-			} catch (Exception e) {
-				errors.add("Errore di Sistema contattare l'amministratore");
-			} finally {
-				if (conn != null)
-					conn.close();
-			}
-		}
+		for(int i=0; i<controlli.length;i++)
+			if(controlli[i] != null && controlli[i])
+				errors.add(message[i]);
 	}
 
 	public Docente getIdentificativodocente() {
