@@ -4,22 +4,24 @@ import java.sql.*;
 import javax.naming.*;
 import javax.sql.*;
 
-final public class GetConnection {
+public final class GetConnection {
 
+	private GetConnection() {
+		
+	}
+	
 	public static Connection getJNDIConnection() {
-		String DATASOURCE_CONTEXT = "java:comp/env/jdbc/GestioneOrariDS";
-
 		Connection result = null;
 		try {
 			Context initialContext = new InitialContext();
-			DataSource datasource = (DataSource) initialContext.lookup(DATASOURCE_CONTEXT);
+			DataSource datasource = (DataSource) initialContext.lookup("java:comp/env/jdbc/GestioneOrariDS");
 			if (datasource != null) {
 				result = datasource.getConnection();
 			}
 		} catch (Exception ex) {
-			System.out.println(ex.getStackTrace());
+			ex.getStackTrace();
 		}
 		return result;
 	}
-
+	
 }
