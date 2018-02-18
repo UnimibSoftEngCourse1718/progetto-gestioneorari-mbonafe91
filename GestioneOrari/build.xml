@@ -64,11 +64,8 @@
 		</ant>
 	</target>
 
-	<!-- Define the SonarQube global properties (the most usual way is to pass these properties via the command line) -->
 	<property name="sonar.host.url" value="http://localhost:9000" />
-
-	<!-- Define the Sonar properties -->
-	<property name="sonar.projectKey" value="IS_PROJECT_GestioneOrari_webapp" />
+	<property name="sonar.projectKey" value="GestioneOrari_webapp" />
 	<property name="sonar.sources" value="src" />
 	<property name="sonar.java.binaries" value="${deploy.dir}/${project}${war.dir.suffix}/WEB-INF/classes" />
 	<property name="sonar.java.libraries" value="web/WEB-INF/lib/*.jar" />
@@ -76,7 +73,6 @@
 	<!-- ========= Define SonarQube Scanner for Ant Target ========= -->
 	<target name="sonar" depends="compile">
 		<taskdef uri="antlib:org.sonar.ant" resource="org/sonar/ant/antlib.xml">
-			<!-- Update the following line, or put the "sonar-ant-task-*.jar" file in your "$HOME/.ant/lib" folder -->
 			<classpath path="web/WEB-INF/lib/sonarqube-ant-task-2.5.jar" />
 		</taskdef>
 
